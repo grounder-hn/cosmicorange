@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Before & After Slider</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .slider-container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .image-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+        }
+        .after {
+            width: 50%;
+            overflow: hidden;
+        }
+        .slider {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: white;
+            cursor: pointer;
+            z-index: 2;
+        }
+        .slider::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: -10px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transform: translateY(-50%);
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="slider-container">
+        <div class="image-container">
+            <img src="https://i.ibb.co/tpQphk8s/Subway-escalator-advertising-screen-Mock-up-mt.jpg">
+            <div class="after" id="afterImage">
+                <img src="https://i.ibb.co/b5k7TpnG/Subway-escalator-advertising-screen-Mock-up.jpg">
+            </div>
+        </div>
+        <div class="slider" id="slider"></div>
+    </div>
+
+    <script>
+        const slider = document.getElementById("slider");
+        const afterImage = document.getElementById("afterImage");
+        const container = document.querySelector(".slider-container");
+
+        let isDragging = false;
+
+        slider.addEventListener("mousedown", () => isDragging = true);
+        window.addEventListener("mouseup", () => isDragging = false);
+        window.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            let rect = container.getBoundingClientRect();
+            let offsetX = e.clientX - rect.left;
+            let percentage = (offsetX / rect.width) * 100;
+
+            if (percentage < 0) percentage = 0;
+            if (percentage > 100) percentage = 100;
+
+            slider.style.left = percentage + "%";
+            afterImage.style.width = percentage + "%";
+        });
+    </script>
+
+</body>
+</html>
