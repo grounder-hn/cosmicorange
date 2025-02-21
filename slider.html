@@ -11,6 +11,7 @@
             align-items: center;
             height: 100vh;
             background-color: #f0f0f0;
+            margin: 0;
         }
         .slider-container {
             position: relative;
@@ -25,7 +26,8 @@
             width: 100%;
             height: 100%;
         }
-        .image-container img {
+        /* 비포 이미지 (항상 고정) */
+        .image-container img.before {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -33,22 +35,23 @@
             top: 0;
             left: 0;
         }
-        /* 애프터 이미지: 처음에는 반만 보이도록 설정 */
+        /* 애프터 이미지 (처음에는 반만 보이도록 설정) */
         .after {
             position: absolute;
             top: 0;
             left: 0;
-            width: 50%; /* 초기 값 */
+            width: 50%;
             height: 100%;
             overflow: hidden;
+            transition: width 0.1s ease-out; /* 부드러운 슬라이더 이동 */
         }
         .after img {
-            width: 100%; /* 이미지가 컨테이너를 따라가도록 설정 */
-            height: 100%;
-            object-fit: cover;
             position: absolute;
             top: 0;
-            left: 0;
+            left: 0; /* 좌측 정렬 유지 */
+            width: 1080px; /* 컨테이너 크기와 동일하게 설정 */
+            height: 100%;
+            object-fit: cover;
         }
         /* 슬라이더 핸들 */
         .slider {
@@ -58,8 +61,9 @@
             width: 4px;
             height: 100%;
             background: white;
-            cursor: pointer;
+            cursor: grab;
             z-index: 3;
+            transition: left 0.1s ease-out;
         }
         .slider::before {
             content: "";
@@ -80,7 +84,7 @@
     <div class="slider-container">
         <div class="image-container">
             <!-- 비포 이미지 -->
-            <img src="https://i.ibb.co/tpQphk8s/Subway-escalator-advertising-screen-Mock-up-mt.jpg">
+            <img src="https://i.ibb.co/tpQphk8s/Subway-escalator-advertising-screen-Mock-up-mt.jpg" class="before">
             <!-- 애프터 이미지 -->
             <div class="after" id="afterImage">
                 <img src="https://i.ibb.co/b5k7TpnG/Subway-escalator-advertising-screen-Mock-up.jpg">
@@ -97,8 +101,16 @@
 
         let isDragging = false;
 
-        slider.addEventListener("mousedown", () => isDragging = true);
-        window.addEventListener("mouseup", () => isDragging = false);
+        slider.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            slider.style.cursor = "grabbing";
+        });
+
+        window.addEventListener("mouseup", () => {
+            isDragging = false;
+            slider.style.cursor = "grab";
+        });
+
         window.addEventListener("mousemove", (e) => {
             if (!isDragging) return;
             let rect = container.getBoundingClientRect();
