@@ -21,7 +21,7 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
         }
         .image-container {
-            position: absolute;
+            position: relative;
             width: 100%;
             height: 100%;
         }
@@ -30,10 +30,21 @@
             height: 100%;
             object-fit: cover;
             position: absolute;
+            top: 0;
+            left: 0;
         }
         .after {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 50%;
+            height: 100%;
             overflow: hidden;
+        }
+        .after img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         .slider {
             position: absolute;
@@ -63,11 +74,14 @@
 
     <div class="slider-container">
         <div class="image-container">
+            <!-- 비포 이미지 -->
             <img src="https://i.ibb.co/tpQphk8s/Subway-escalator-advertising-screen-Mock-up-mt.jpg">
+            <!-- 애프터 이미지 -->
             <div class="after" id="afterImage">
                 <img src="https://i.ibb.co/b5k7TpnG/Subway-escalator-advertising-screen-Mock-up.jpg">
             </div>
         </div>
+        <!-- 슬라이더 -->
         <div class="slider" id="slider"></div>
     </div>
 
